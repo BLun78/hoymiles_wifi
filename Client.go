@@ -68,7 +68,7 @@ func NewClient(host string, port int32) *ClientData {
 
 	return &ClientData{connectionData: connectionData,
 		ConnectionInfo:    fmt.Sprintf("%s://%s:%d", common.CCONNECTION_TYPE, host, port),
-		ConnectionTimeout: time.Second * 30,
+		ConnectionTimeout: time.Second * time.Duration(30),
 	}
 }
 
@@ -326,16 +326,12 @@ func toBigEndianByteArray16(i uint16) (arr [2]byte) {
 func (client *ClientData) createOrCheckConnection() error {
 	if client.connection == nil {
 
-		tcpServer, err := net.ResolveTCPAddr(common.CCONNECTION_TYPE, client.connectionData.Uri)
-		if err != nil {
-			return err
-		}
-
-		client.connection, err = net.DialTCP(common.CCONNECTION_TYPE, nil, tcpServer)
+		connection, err := net.DialTimeout(common.CCONNECTION_TYPE, client.connectionData.Uri, client.ConnectionTimeout)
 		if err != nil {
 			client.connection = nil
 			return err
 		}
+		client.connection = connection
 	}
 	return nil
 }
