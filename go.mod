@@ -1,12 +1,9 @@
 module github.com/BLun78/hoymiles_wifi
 
-go 1.23
+go 1.24
 
-toolchain go1.23.0
+toolchain go1.24.0
 
-require (
-	github.com/basvdlei/gotsmart v0.0.3
-	google.golang.org/protobuf v1.34.2
-)
+require google.golang.org/protobuf v1.36.6
 
-require github.com/google/go-cmp v0.6.0 // indirect
+require github.com/google/go-cmp v0.7.0 // indirect
